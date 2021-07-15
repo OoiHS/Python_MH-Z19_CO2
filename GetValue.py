@@ -1,21 +1,42 @@
 '''
 You need to enable Serial port in RaspberryPi first:
-- Run RaspberryPi Terminal
-- sudo raspi-config
--  Interface Options
--  Serial Port
--  Would you like the serial port hardware to be enabled? [YES]
--  Accept and reboot RaspberryPi.
-
-You can check which GPIO pins that corresponds to the UART pins
-- Run RaspberryPi Terminal
-- dtoverlay -h uart1
+> Run RaspberryPi Terminal
+> sudo raspi-config
+   Interface Options
+   Serial Port
+   Would you like the serial port hardware to be enabled? [YES]
+   Accept and reboot RaspberryPi.
 
 https://www.programmersought.com/article/92047061453/
 https://www.raspberrypi.org/documentation/configuration/uart.md
-https://pinout.xyz/pinout/uart
-https://github.com/UedaTakeyuki/mh-z19
+These will enable the additional UART pins that was hidden (only for RaspberryPi 4 and above)
+> ls /dev/ttyAMA*		[You should see only a few UART is up]
+> sudo nano /boot/config.txt
+   dtoverlay=uart1
+   dtoverlay=uart2
+   dtoverlay=uart3
+   dtoverlay=uart4
+   dtoverlay=uart5
+   # dtoverlay=uart1,txd1_pin=32,rxd1_pin=33
+> reboot
+> ls /dev/ttyAMA*		[You should now see more UART is up]
+> dtoverlay -h uart1		Shows some description for GPIO UART pins
 
+
+GPIO14 = TXD0 -> ttyAMA0
+GPIO15 = RXD0 -> ttyAMA0
+
+GPIO0  = TXD2 -> ttyAMA1
+GPIO1  = RXD2 -> ttyAMA1
+
+GPIO4  = TXD3 -> ttyAMA2
+GPIO5  = RXD3 -> ttyAMA2
+
+GPIO8  = TXD4 -> ttyAMA3
+GPIO9  = RXD4 -> ttyAMA3
+
+GPIO12 = TXD5 -> ttyAMA4
+GPIO13 = RXD5 -> ttyAMA4
 '''
 
 import serial
